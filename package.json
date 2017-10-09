@@ -1,0 +1,22 @@
+{
+  "name": "tourno",
+  "version": "1.0.0",
+  "description": "A turn-based game using Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/sjmog/tourno",
+  "keywords": [
+    "turn-based",
+    "electron"
+  ],
+  "author": "Sam Morgan",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "~1.6.2"
+  },
+  "dependencies": {
+    "jquery": "^3.2.1"
+  }
+}
