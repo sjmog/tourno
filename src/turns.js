@@ -3,9 +3,8 @@ const {Turn} = require('./turn')
 const Turns = function() {
   this.history = []
 
-  this.take = () => {
-    const turn = new Turn()
-    this.history.push(turn.take())
+  this.take = (owner, position) => {
+    this.history.push(new Turn(owner, position))
   }
 
   this.summary = () => {

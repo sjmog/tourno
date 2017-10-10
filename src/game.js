@@ -1,24 +1,24 @@
 const {Turns} = require('./turns')
 const {Print} = require('./print')
 
-const Game = function(turns = new Turns, print = new Print) {
+const Game = function(controller, turns = new Turns, print = new Print) {
+  this.player = "Sam"
+
   this.start = () => {
     print.welcome()
+    let self = this
 
-    while(true) {
-      this._takeTurn()
+    controller.on('turn', (event, position) => {
+      if(self._isOver()) { 
+        print.over(self._summary())
+      }
 
-      if(this._isOver()) { 
-        print.over(this._summary())
-
-        break 
-      };
-    }
-
+      self._takeTurn(position);
+    })
   }
 
-  this._takeTurn = () => {
-    turns.take()
+  this._takeTurn = (position) => {
+    turns.take(this.player, position)
   }
 
   this._isOver = () => {
@@ -30,4 +30,4 @@ const Game = function(turns = new Turns, print = new Print) {
   }
 }
 
-module.exports.Game = function(turns, print) { return new Game(turns, print) }
+module.exports.Game = function(controller, turns, print) { return new Game(controller, turns, print) }

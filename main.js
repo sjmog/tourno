@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -19,6 +19,6 @@ app.once('ready', () => {
     slashes: true
   }))
 
-  const game = new Game
+  const game = new Game(ipcMain)
   game.start()
 })

@@ -1,14 +1,11 @@
-const Turn = function() {
-  this.take = () => {
-    this.positionX = Math.floor(Math.random() * 5);
-    this.positionY = Math.floor(Math.random() * 5);
-
-    return this;
-  }
+const Turn = function(owner, position) {
+  this.owner = owner
+  this.positionX = position.x
+  this.positionY = position.y
 
   this.toString = () => {
-    return `x: ${ this.positionX }, y: ${ this.positionY }`
+    return `${ this.owner } – x: ${ this.positionX }, y: ${ this.positionY }`
   }
 }
 
-module.exports.Turn = function() { return new Turn }
+module.exports.Turn = function(owner, position) { return new Turn(owner, position) }
