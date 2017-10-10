@@ -5,16 +5,24 @@
     <title>Tourno</title>
   </head>
   <body>
-    <form>
+    <p>Current player: <span id="current-player"></span></p>
+    <form id="grid">
       <input type="radio" name="cell" data-positionX="0" data-positionY="0">
       <input type="radio" name="cell" data-positionX="1" data-positionY="0">
+      <input type="radio" name="cell" data-positionX="2" data-positionY="0">
+      <br />
       <input type="radio" name="cell" data-positionX="0" data-positionY="1">
       <input type="radio" name="cell" data-positionX="1" data-positionY="1">
+      <input type="radio" name="cell" data-positionX="2" data-positionY="1">
+      <br />
+      <input type="radio" name="cell" data-positionX="0" data-positionY="2">
+      <input type="radio" name="cell" data-positionX="1" data-positionY="2">
+      <input type="radio" name="cell" data-positionX="2" data-positionY="2">
     </form>
+    <p id="information"></p>
   </body>
 
   <script>
-    // You can also require other files to run in this process
     require('./renderer.js')
   </script>
 </html>

@@ -1,11 +1,13 @@
-const Turn = function(owner, position) {
-  this.owner = owner
-  this.positionX = position.x
-  this.positionY = position.y
+const Turn = function(player, data) {
+  this.player = player
+  this.data   = data
 
+  //
+  // represent the turn in human-readable format
+  //
   this.toString = () => {
-    return `${ this.owner } – x: ${ this.positionX }, y: ${ this.positionY }`
+    return `${ this.player } – x: ${ this.data.x }, y: ${ this.data.y }`
   }
 }
 
-module.exports.Turn = function(owner, position) { return new Turn(owner, position) }
+module.exports.Turn = function(player, data) { return new Turn(player, data) }

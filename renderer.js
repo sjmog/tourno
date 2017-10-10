@@ -1,15 +1,18 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
-
 const {ipcRenderer} = require('electron')
+const {Events} = require('./src/events')
 const $ = require('jQuery')
 
-const takeTurn = (position) => {
-  ipcRenderer.send('turn', position)
+const setupIpcListeners = () => {
+  ipcRenderer.on(Events.SWITCH_PLAYER, (event, player) => {
+    updatePlayerName(player)
+  })
+
+  ipcRenderer.on(Events.GAME_OVER, (event, summary) => {
+    updateInformation(summary)
+  })
 }
 
-const setupListeners = () => {
+const setupViewListeners = () => {
   $('input[name=cell]').change((data) => {
     takeTurn(
       {
@@ -20,6 +23,21 @@ const setupListeners = () => {
   })
 }
 
+const takeTurn = (position) => {
+  ipcRenderer.send(Events.TURN, position)
+}
+
+const updatePlayerName = (name) => {
+  $('#current-player').text(name)
+}
+
+const updateInformation = (information) => {
+  $('#information').text(information)
+}
+
 $(document).ready(() => {
-  setupListeners()
+  setupIpcListeners()
+  setupViewListeners()
+
+  updatePlayerName(ipcRenderer.sendSync(Events.START).currentPlayer)
 });

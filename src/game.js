@@ -1,32 +1,49 @@
 const {Turns} = require('./turns')
-const {Print} = require('./print')
+const {Players} = require('./players')
+const {Events} = require('./events')
 
-const Game = function(controller, turns = new Turns, print = new Print) {
-  this.player = "Sam"
-
+const Game = function(listener, turns = new Turns, players = new Players) {
+  //
+  // run the game loop
+  //
   this.start = () => {
-    print.welcome()
-    let self = this
+    listener.on(Events.START, (event) => {
+      event.returnValue = { currentPlayer: players.randomise() }
+    })
 
-    controller.on('turn', (event, position) => {
-      if(self._isOver()) { 
-        print.over(self._summary())
+    listener.on(Events.TURN, (event, data) => {
+      this._takeTurn(data)
+
+      event.sender.send(Events.SWITCH_PLAYER, players.current)
+
+      if(this._isOver()) {
+        event.sender.send(Events.GAME_OVER, this._summary())
       }
-
-      self._takeTurn(position);
     })
   }
 
-  this._takeTurn = (position) => {
-    turns.take(this.player, position)
+  //
+  // take the turn:
+  //   - store it
+  //   - switch players
+  //
+  this._takeTurn = (data) => {
+    turns.store(players.current, data)
+    players.switch()
   }
 
+  //
+  // return true if the win condition is met
+  // 
   this._isOver = () => {
     return turns.length() > 9
   }
 
+  //
+  // summarise all turns in the game
+  //
   this._summary = () => {
-    return turns.summary();
+    return turns.summary()
   }
 }
 
